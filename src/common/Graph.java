@@ -16,7 +16,6 @@ import java.util.List;
  * @author tony
  */
 public class Graph {
-    public static Node testNode;
     // map node IDs to Nodes.
     Map<Integer, Node> nodes = new HashMap<>();
     // map road IDs to Roads.
@@ -95,10 +94,6 @@ public class Graph {
         g2.setColor(Mapper.HIGHLIGHT_COLOUR);
         for (Node n : highlightedNodes)
             n.draw(g2, screen, origin, scale);
-
-        g2.setColor(Color.CYAN);
-        //if(testNode != null)
-        //testNode.draw(g2, screen, origin, scale);
     }
 
     public void setHighlight(Node node) {
