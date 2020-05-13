@@ -5,6 +5,7 @@ import common.Segment;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.Stack;
 
 /**
  * Represents a fringe step/element to be used in a depth first search.
@@ -13,7 +14,6 @@ public class FringeElement {
     public final Node node;
     public final FringeElement previousElement;
     public final int depth;
-    public final Set<Node> children = new HashSet<>();
 
     public FringeElement(Node node, FringeElement previousElement, int depth) {
         this.node = node;
@@ -28,5 +28,11 @@ public class FringeElement {
         this.node = node;
         this.previousElement = null;
         this.depth = 0;
+    }
+
+    public Node getPreviousNode() {
+        if(previousElement == null)
+            return null;
+        return previousElement.node;
     }
 }

@@ -3,12 +3,10 @@ package common;
 import gui.Mapper;
 import io.Parser;
 
-import java.awt.BasicStroke;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
+import java.awt.*;
 import java.io.File;
 import java.util.*;
+import java.util.List;
 
 /**
  * This represents the data structure storing all the roads, nodes, and
@@ -18,6 +16,7 @@ import java.util.*;
  * @author tony
  */
 public class Graph {
+    public static Node testNode;
     // map node IDs to Nodes.
     Map<Integer, Node> nodes = new HashMap<>();
     // map road IDs to Roads.
@@ -96,6 +95,10 @@ public class Graph {
         g2.setColor(Mapper.HIGHLIGHT_COLOUR);
         for (Node n : highlightedNodes)
             n.draw(g2, screen, origin, scale);
+
+        g2.setColor(Color.CYAN);
+        //if(testNode != null)
+        //testNode.draw(g2, screen, origin, scale);
     }
 
     public void setHighlight(Node node) {

@@ -7,6 +7,7 @@ import java.awt.Graphics;
 import java.awt.Point;
 import java.util.*;
 import java.util.function.Consumer;
+import java.util.stream.Stream;
 
 /**
  * common.Node represents an intersection in the road graph. It stores its ID and its
@@ -72,11 +73,15 @@ public class Node implements Iterable<Node> {
 
     @Override
     public Iterator<Node> iterator() {
+        return stream().iterator();
+    }
+
+    public Stream<Node> stream() {
         return segments.stream().map(x -> {
             if (x.start.equals(this))
                 return x.end;
             return x.start;
-        }).iterator();
+        });
     }
 }
 

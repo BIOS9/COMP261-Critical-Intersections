@@ -152,6 +152,7 @@ public class Mapper extends GUI {
 		origin = new Location(0, 0); // close enough
 		scale = 10;
         articulationPoints = ArticulationPointSearcher.findArticulationPoints(graph);
+        graph.setHighlightNodes(articulationPoints);
         redraw();
 	}
 

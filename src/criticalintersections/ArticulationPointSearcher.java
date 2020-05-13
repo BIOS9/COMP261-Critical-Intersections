@@ -2,8 +2,10 @@ package criticalintersections;
 
 import common.Graph;
 import common.Node;
+import sun.java2d.pipe.SpanClipRenderer;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class ArticulationPointSearcher {
     /**
@@ -17,56 +19,85 @@ public class ArticulationPointSearcher {
             return Collections.emptySet();
         }
 
-        // Node to start the depth first search on.
-        Node rootNode = graph.getNodes().values().iterator().next();
+        Set<Node> allNodes = new HashSet<>(graph.getNodes().values());
+        Set<Node> articulationNodes = new HashSet<>(); // Set of nodes that are articulation points.
 
+        // Keep looping until all nodes have been visited
+        while (!allNodes.isEmpty()) {
+            Node rootNode = allNodes.iterator().next(); // Node to start the depth first search on.
+            Map<Node, Integer> depthValues = new HashMap<>(); // Stores reach back values for each node. Used for visited check.
+            Map<Node, Integer> reachBackValues = new HashMap<>(); // Stores reach back values for each node.
+            articulationNodes.addAll(findArticulationPoints(rootNode, depthValues, reachBackValues));
+            allNodes.removeAll(depthValues.keySet());
+        }
+
+        System.out.println(articulationNodes.size());
+        return articulationNodes;
+    }
+
+    private static Set<Node> findArticulationPoints(Node rootNode, Map<Node, Integer> depthValues, Map<Node, Integer> reachBackValues) {
         // Fringe stack for the iterative depth first search.
         Stack<FringeElement> fringe = new Stack<>();
         fringe.add(new FringeElement(rootNode));
 
         Set<Node> articulationNodes = new HashSet<>(); // Set of nodes that are articulation points.
-        Set<Node> visitedNodes = new HashSet<>();
-        Map<Node, Integer> reachBackValues = new HashMap<>(); // Stores reach back values for each node.
+        Set<Node> nodesWithNoChildren = new HashSet<>();
+        Map<Node, Stack<Node>> nodeChildren = new HashMap<>();
+
+        System.out.println("Root: " + rootNode.nodeID);
+        Graph.testNode = rootNode;
 
         while (!fringe.empty()) {
-            FringeElement currentElement = fringe.peek();
+            final FringeElement currentElement = fringe.peek();
+            Node previousNode = currentElement.getPreviousNode();
             Node currentNode = currentElement.node;
-            int reachBack = reachBackValues.getOrDefault(currentNode, currentElement.depth);
+            Stack<Node> children = nodeChildren.get(currentNode);
+            if(children == null) {
+                children = new Stack<>();
+                nodeChildren.put(currentNode, children);
+            }
 
-            visitedNodes.add(currentNode);
 
-            boolean addedChild = false; // Whether any children have been added to the fringe
-            for (Node child : currentNode) {
-                if (currentElement.previousElement != null && currentElement.previousElement.node.equals(child))
-                    continue;
+            if (!depthValues.containsKey(currentNode)) {
+                //if (previousNode != null)
+                //    depth = depthValues.get(previousNode) + 1;
 
-                if (reachBackValues.containsKey(child)) {
-                    reachBack = Math.min(reachBack, reachBackValues.get(child));
+                depthValues.put(currentNode, currentElement.depth);
+                reachBackValues.put(currentNode, currentElement.depth);
+                children.addAll(
+                        currentNode.stream().
+                                filter(x -> !x.equals(currentElement.getPreviousNode())).
+                                collect(Collectors.toList()));
+            } else if (!children.isEmpty()) {
+                Node child = children.pop();
+                if (depthValues.containsKey(child)) {
+                    reachBackValues.put(currentNode, Math.min(reachBackValues.get(currentNode), depthValues.get(child)));
+                    if(depthValues.get(currentNode) == 0) {
+                        int childDepth = depthValues.get(child);
+                        reachBackValues.put(currentNode, childDepth);
+                    }
+                } else {
+                    fringe.add(new FringeElement(child, currentElement, currentElement.depth + 1));
                 }
-
-                if (visitedNodes.contains(child))
-                    continue;
-
-                addedChild = true;
-                fringe.add(new FringeElement(child, currentElement, currentElement.depth + 1));
-            }
-
-            if (!addedChild) {
-                ;
-                fringe.remove(currentElement); // Remove self from fringe
-            }
-
-            //System.out.println("Current element: " + currentNode.toString() + " Depth: " + currentElement.depth + " Reach back: " + reachBack);
-
-            if (reachBack != -1)
-                reachBackValues.put(currentNode, reachBack);
-
-            if (reachBack > currentElement.depth) {
-                articulationNodes.add(currentNode);
+            } else {
+                if (!currentNode.equals(rootNode)) {
+                    reachBackValues.put(previousNode, Math.min(reachBackValues.get(currentNode), reachBackValues.get(previousNode)));
+                    if(previousNode != null && previousNode.equals(rootNode)) {
+                        System.out.println("BREAK");
+                    }
+                    int a = reachBackValues.get(currentNode);
+                    int b = depthValues.get(previousNode);
+                    if (reachBackValues.get(currentNode) >= depthValues.get(previousNode)) {
+                        if(previousNode.stream().count() > 1) // Only add node as AP if it has more than 1 neighbour.
+                            articulationNodes.add(previousNode);
+                    }
+                }
+                fringe.remove(currentElement);
             }
         }
 
-        System.out.println(articulationNodes.size());
+        System.out.println("Nodes with no children: " + nodesWithNoChildren.size());
+
         return articulationNodes;
     }
 }
