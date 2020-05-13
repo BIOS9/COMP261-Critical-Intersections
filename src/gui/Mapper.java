@@ -1,11 +1,14 @@
 package gui;
 
 import common.*;
+import criticalintersections.ArticulationPointSearcher;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
 import java.io.File;
+import java.util.Collections;
+import java.util.Set;
 
 /**
  * This is the main class for the mapping program. It extends the GUI abstract
@@ -39,6 +42,7 @@ public class Mapper extends GUI {
 	private Location origin = new Location(0, 0);
 	private double scale = 10;
 	private double dragStartOriginX = 0, dragStartOriginY = 0;
+	private Set<Node> articulationPoints = Collections.emptySet();
 
 	// our data structures.
 	private Graph graph;
@@ -147,6 +151,8 @@ public class Mapper extends GUI {
 		graph = new Graph(nodes, roads, segments, polygons);
 		origin = new Location(0, 0); // close enough
 		scale = 10;
+        articulationPoints = ArticulationPointSearcher.findArticulationPoints(graph);
+        redraw();
 	}
 
 	public static void main(String[] args) {
