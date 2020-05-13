@@ -1,22 +1,17 @@
 package gui;
 
-import com.sun.istack.internal.Nullable;
 import common.*;
 
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Point;
+import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
 import java.io.File;
-import java.util.List;
-import java.util.Map;
 
 /**
  * This is the main class for the mapping program. It extends the GUI abstract
  * class and implements all the methods necessary, as well as having a main
  * function.
- * 
+ *
  * @author tony
  */
 public class Mapper extends GUI {
@@ -160,3 +155,4 @@ public class Mapper extends GUI {
 }
 
 // code for COMP261 assignments
+
