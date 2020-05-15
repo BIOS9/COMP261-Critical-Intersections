@@ -27,7 +27,7 @@ public class DisjointSet <T> {
         if(node2 == null) // Nodes cannot be in the same set if item2 doesnt exist in the ds
             return false;
 
-        return node1.getParent() == node2.getParent();
+        return node1.getRoot() == node2.getRoot();
     }
 
     /**

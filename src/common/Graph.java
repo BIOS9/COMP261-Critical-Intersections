@@ -33,30 +33,6 @@ public class Graph {
         this.segments = Parser.parseSegments(segments, this);
     }
 
-    private void applyTrafficLightCounts(Map<String, Integer> counts) {
-        HashMap<String, List<Road>> roadMap = new HashMap<>();
-
-        for(Road r : roads.values()) {
-            if(roadMap.containsKey(r.name)) {
-                roadMap.get(r.name).add(r);
-            } else {
-                ArrayList<Road> roadList = new ArrayList<>();
-                roadList.add(r);
-                roadMap.put(r.name, roadList);
-            }
-        }
-
-        // Evenly divide the lights over all the roads sections with the same name.
-        for(Map.Entry<String, Integer> entry : counts.entrySet()) {
-            List<Road> roadList = roadMap.get(entry.getKey());
-            double lightCost = (double)entry.getValue() / (double)roadList.size();
-
-            for(Road r : roadList) {
-                r.trafficLightValue = lightCost;
-            }
-        }
-    }
-
     public void draw(Graphics g, Dimension screen, Location origin, double scale) {
         // a compatibility wart on swing is that it has to give out Graphics
         // objects, but Graphics2D objects are nicer to work with. Luckily

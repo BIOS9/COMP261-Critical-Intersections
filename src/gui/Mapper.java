@@ -156,7 +156,7 @@ public class Mapper extends GUI {
         articulationPoints = ArticulationPointSearcher.findArticulationPoints(graph);
         spanningTree = SpanningTreeSearcher.findMinimumSpanningTree(graph);
 
-        graph.setHighlightNodes(articulationPoints);
+        //graph.setHighlightNodes(articulationPoints);
 		graph.setHighlightedSegments(spanningTree);
 
         redraw();

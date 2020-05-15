@@ -78,7 +78,12 @@ public class Segment implements Comparable<Segment> {
 
 	@Override
 	public int compareTo(Segment o) {
-		return (int)(o.length - length);
+		if(length < o.length)
+			return -1;
+		else if(length > o.length)
+			return 1;
+
+		return 0;
 	}
 }
 
