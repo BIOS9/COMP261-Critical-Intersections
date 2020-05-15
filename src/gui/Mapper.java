@@ -21,7 +21,7 @@ import java.util.Set;
 public class Mapper extends GUI {
 	public static final Color NODE_COLOUR = new Color(77, 113, 255);
 	public static final Color SEGMENT_COLOUR = new Color(130, 130, 130);
-	public static final Color HIGHLIGHT_COLOUR = new Color(255, 219, 77);
+	public static final Color HIGHLIGHT_COLOUR = new Color(255, 109, 34);
 
 	// these two constants define the size of the node squares at different zoom
 	// levels; the equation used is node size = NODE_INTERCEPT + NODE_GRADIENT *
@@ -48,6 +48,26 @@ public class Mapper extends GUI {
 
 	// our data structures.
 	private Graph graph;
+
+	@Override
+	protected void onMinimumSpanningTree() {
+		if(graph == null)
+			return;
+
+		spanningTree = SpanningTreeSearcher.findMinimumSpanningTree(graph);
+		graph.setHighlightNodes(Collections.emptySet());
+		graph.setHighlightedSegments(spanningTree);
+	}
+
+	@Override
+	protected void onArticulationPoints() {
+		if(graph == null)
+			return;
+
+		articulationPoints = ArticulationPointSearcher.findArticulationPoints(graph);
+		graph.setHighlightedSegments(Collections.emptySet());
+		graph.setHighlightNodes(articulationPoints);
+	}
 
 	@Override
 	protected void redraw(Graphics g) {
@@ -153,13 +173,6 @@ public class Mapper extends GUI {
 		graph = new Graph(nodes, roads, segments, polygons);
 		origin = new Location(0, 0); // close enough
 		scale = 10;
-        articulationPoints = ArticulationPointSearcher.findArticulationPoints(graph);
-        spanningTree = SpanningTreeSearcher.findMinimumSpanningTree(graph);
-
-        //graph.setHighlightNodes(articulationPoints);
-		graph.setHighlightedSegments(spanningTree);
-
-        redraw();
 	}
 
 	public static void main(String[] args) {

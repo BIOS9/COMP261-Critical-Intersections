@@ -137,6 +137,9 @@ public abstract class GUI {
 		return drawing.getSize();
 	}
 
+	protected abstract void onMinimumSpanningTree();
+	protected abstract void onArticulationPoints();
+
 	/**
 	 * Redraws the window (including drawing pane). This is already done
 	 * whenever a button is pressed or the search box is updated, so you
@@ -303,6 +306,18 @@ public abstract class GUI {
 			}
 		});
 
+		JButton treeButton = new JButton("Min Spanning Tree");
+		treeButton.addActionListener((e) -> {
+			onMinimumSpanningTree();
+			redraw();
+		});
+
+		JButton apButton = new JButton("Articulation Points");
+		apButton.addActionListener((e) -> {
+			onArticulationPoints();
+			redraw();
+		});
+
 		// next, make the search box at the top-right. we manually fix
 		// it's size, and add an action listener to call your code when
 		// the user presses enter.
@@ -356,9 +371,12 @@ public abstract class GUI {
 		loadquit.add(load);
 		loadquit.add(quit);
 		controls.add(loadquit);
+
+
 		// rigid areas are invisible components that can be used to space
 		// components out.
 		controls.add(Box.createRigidArea(new Dimension(15, 0)));
+
 
 		JPanel navigation = new JPanel();
 		navigation.setMaximumSize(new Dimension(150, 60));
@@ -371,6 +389,8 @@ public abstract class GUI {
 		navigation.add(east);
 		controls.add(navigation);
 		controls.add(Box.createRigidArea(new Dimension(15, 0)));
+		controls.add(treeButton);
+		controls.add(apButton);
 		// glue is another invisible component that grows to take up all the
 		// space it can on resize.
 		controls.add(Box.createHorizontalGlue());
