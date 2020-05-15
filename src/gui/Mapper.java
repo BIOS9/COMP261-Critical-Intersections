@@ -2,6 +2,7 @@ package gui;
 
 import common.*;
 import criticalintersections.ArticulationPointSearcher;
+import minspanningtree.SpanningTreeSearcher;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
@@ -43,6 +44,7 @@ public class Mapper extends GUI {
 	private double scale = 10;
 	private double dragStartOriginX = 0, dragStartOriginY = 0;
 	private Set<Node> articulationPoints = Collections.emptySet();
+	private Set<Segment> spanningTree = Collections.emptySet();
 
 	// our data structures.
 	private Graph graph;
@@ -152,7 +154,11 @@ public class Mapper extends GUI {
 		origin = new Location(0, 0); // close enough
 		scale = 10;
         articulationPoints = ArticulationPointSearcher.findArticulationPoints(graph);
+        spanningTree = SpanningTreeSearcher.findMinimumSpanningTree(graph);
+
         graph.setHighlightNodes(articulationPoints);
+		graph.setHighlightedSegments(spanningTree);
+
         redraw();
 	}
 

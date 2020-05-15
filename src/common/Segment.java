@@ -11,7 +11,7 @@ import java.util.Objects;
  * 
  * @author tony
  */
-public class Segment {
+public class Segment implements Comparable<Segment> {
 
 	public final Road road;
 	public final Node start, end;
@@ -74,6 +74,11 @@ public class Segment {
 	@Override
 	public int hashCode() {
 		return Objects.hash(road, start, end, length);
+	}
+
+	@Override
+	public int compareTo(Segment o) {
+		return (int)(o.length - length);
 	}
 }
 

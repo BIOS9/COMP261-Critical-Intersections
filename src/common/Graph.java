@@ -118,6 +118,10 @@ public class Graph {
         this.highlightedRoads = roads;
     }
 
+    public Collection<Segment> getSegments() {
+        return segments;
+    }
+
     public Map<Integer, Node> getNodes() {
         return nodes;
     }
