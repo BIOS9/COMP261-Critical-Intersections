@@ -67,3 +67,10 @@
 6. BC 2
 7. CH 4
 8. HI 6
+
+##Kruskal's algorithm
+This is the tree of the disjoint set at the end of the algorithm. 
+
+(This assumes that when Union(x, y) is called, y becomes the parent of x)
+
+![Kruskal's Algorithm disjoint set state](kruskalsFinal.png)
