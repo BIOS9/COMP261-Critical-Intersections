@@ -55,3 +55,15 @@
 * F
     > F has the child J which has a reach back higher than the depth of F which indicates
     that F is an AP
+
+---
+##Minimum spanning tree
+##Prim's algorithm
+1. AD 2
+2. DE 6
+3. EF 3
+4. BE 4
+5. BG 1
+6. BC 2
+7. CH 4
+8. HI 6
