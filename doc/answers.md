@@ -74,4 +74,9 @@ This is the tree of the disjoint set at the end of the algorithm.
 (This assumes that when Union(x, y) is called, y root becomes the parent of x root 
 as long as the depth of x root is shorter or equal to the depth of y root)
 
-![Kruskal's Algorithm disjoint set state](kruskalsFinal.png)
+![Kruskal's Algorithm disjoint set state](kruskalsFinalGTop.png)
+
+If the Union method makes x the parent of y (Opposite to the previous), then the 
+following image will be the resulting tree.
+
+![Kruskal's Algorithm disjoint set state](kruskalsFinalBTop.png)
