@@ -24,7 +24,8 @@ public class ArticulationPointSearcher {
 
         // Keep looping until all nodes have been visited
         while (!allNodes.isEmpty()) {
-            Node rootNode = findRootNode(allNodes); // Node to start the depth first search on.
+            Node rootNode = allNodes.iterator().next(); // Node to start the depth first search on.
+            System.out.println(rootNode);
             // Passing these values in here because they are used to check which nodes were visited to deal with disconnected graphs
             // Storing these outside of the node class because I dont want to modify it.
             Map<Node, Integer> depthValues = new HashMap<>(); // Stores reach back values for each node. Used for visited check.
@@ -33,25 +34,8 @@ public class ArticulationPointSearcher {
             allNodes.removeAll(depthValues.keySet());
         }
 
-        System.out.println(articulationNodes.size());
+        System.out.println("Found " + articulationNodes.size() + " articulation points");
         return articulationNodes;
-    }
-
-    /**
-     * Finds a root node that is guaranteed to not be an articulation point.
-     * @param allNodes All nodes in the graoh
-     * @return A root node for the AP search algorithm
-     */
-    private static Node findRootNode(Set<Node> allNodes) {
-        Iterator<Node> nodeIterator = allNodes.iterator();
-        while (nodeIterator.hasNext()) {
-            Node node = nodeIterator.next();
-            if(node.stream().count() == 1)
-                return node;
-        }
-
-        // If no guaranteed non-ap node can be found, use any node from set
-        return allNodes.iterator().next();
     }
 
     private static Set<Node> findArticulationPoints(Node rootNode, Map<Node, Integer> depthValues, Map<Node, Integer> reachBackValues) {
@@ -61,6 +45,9 @@ public class ArticulationPointSearcher {
 
         Set<Node> articulationNodes = new HashSet<>(); // Set of nodes that are articulation points.
         Map<Node, Stack<Node>> nodeChildren = new HashMap<>();
+        Set<Node> rootDirectChildren = rootNode.stream().collect(Collectors.toSet()); // Direct children of the root node
+        int rootChildProcessCount = 0; // Number of times a root child was processed directly from the root node
+        // If the next child of the root is unvisited when the root gets to it, the root is an AP
 
         while (!fringe.empty()) {
             final FringeElement currentElement = fringe.peek();
@@ -82,6 +69,8 @@ public class ArticulationPointSearcher {
                         currentNode.stream().
                                 filter(x -> !x.equals(currentElement.getPreviousNode())).
                                 collect(Collectors.toList()));
+                if(rootDirectChildren.contains(currentNode) && previousNode == rootNode)
+                    rootChildProcessCount++;
             } else if (!children.isEmpty()) { // If there are children of this node that still need to be visited
                 Node child = children.pop();
                 if (depthValues.containsKey(child)) {
@@ -93,13 +82,17 @@ public class ArticulationPointSearcher {
                 if (!currentNode.equals(rootNode)) {
                     reachBackValues.put(previousNode, Math.min(reachBackValues.get(currentNode), reachBackValues.get(previousNode)));
                     if (reachBackValues.get(currentNode) >= depthValues.get(previousNode)) {
-                        if(!previousNode.equals(rootNode) && previousNode.stream().count() > 1) // Only add node as AP if it has more than 1 neighbour.
+                        if(previousNode.stream().count() > 1) // Only add node as AP if it has more than 1 neighbour.
                             articulationNodes.add(previousNode);
                     }
                 }
                 fringe.remove(currentElement);
             }
         }
+
+        // If the root node only processed 1 unvisted node, the root is AP
+        if(rootChildProcessCount <= 1)
+            articulationNodes.remove(rootNode);
 
         return articulationNodes;
     }
