@@ -1,6 +1,6 @@
-#COMP261 Assignment 3 Answers
+# COMP261 Assignment 3 Answers
 
-##Articulation points
+## Articulation points
 Pseudocode of AP algorithm used.
 ```
 let allNodes = collection of all the nodes in the graph
@@ -48,7 +48,7 @@ loop until allNodes is empty
 end loop
 ```
 
-###Depth and reachback
+### Depth and reachback
 * A
     * Depth: 0
     * Reach-back: 0
@@ -89,7 +89,7 @@ end loop
     * Depth: 6
     * Reach-back: 6
     
-###List of points
+### List of points
 * B
     > C is a child of B that has a reach-back of 2 while B has a depth of 1, 
     this indicates that there are no alternative paths for C making B an AP
@@ -104,7 +104,7 @@ end loop
     that F is an AP
 
 ---
-##Minimum spanning tree
+## Minimum spanning tree
 Pseudocode of MST algorithm used.
 ```
 let djSet = disjoint set
@@ -122,7 +122,7 @@ loop until fringe is empty
 end loop
 ```
 
-###Prim's algorithm
+### Prim's algorithm
 1. AD 2
 2. DE 6
 3. EF 3
@@ -132,7 +132,7 @@ end loop
 7. CH 4
 8. HI 6
 
-###Kruskal's algorithm
+### Kruskal's algorithm
 This is the tree of the disjoint set at the end of the algorithm. 
 
 (This assumes that when Union(x, y) is called, x root becomes the parent of y root 
@@ -146,12 +146,12 @@ following image will be the resulting tree.
 ![Kruskal's Algorithm disjoint set state](kruskalsFinalGTop.png)
 
 
-##FFT
-###Calculate complex multiplcations and additions
-####Multiplication
+## FFT
+### Calculate complex multiplcations and additions
+#### Multiplication
 ![Complex multiplication count](complexMultiplications.png)
-####Addition:
+#### Addition:
 ![Complex addition count](complexAdditions.png)
 
-###Order of 16 point time series
+### Order of 16 point time series
 0 8 4 12 2 10 6 14 1 9 5 13 3 11 7 15
