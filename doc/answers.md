@@ -1,6 +1,53 @@
 #COMP261 Assignment 3 Answers
 
 ##Articulation points
+Pseudocode of AP algorithm used.
+```
+let allNodes = collection of all the nodes in the graph
+let articulationNodes = empty collection to store articulation points
+
+loop until allNodes is empty 
+    let rootNode = first node from allNodes
+    let visitedNodes = empty collection to store nodes visited
+    let rootChildCount = 0 // Used to find if root is an AP
+
+    let fringe = empty stack for fringe elements
+    loop until fringe is empty
+        let node = peek from fringe
+        let previousNode = parent of node
+
+        if node.depth is set
+            node.reachBack = node.depth = current fringe element depth
+            add every node except the parent of node to node.children
+            
+            if node is a direct child of rootNode and previousNode is rootNode
+                increment rootChildCount
+        else if node.children is not empty
+            let child = get and remove a node from node.children
+            if child.depth is set
+                node.reachBack = min(node.reachBack, child.depth)
+            else
+                add child to fringe with depth = node.depth + 1 and parent = node
+            end if
+        else 
+            if node is not rootNode
+                previousNode.reachBack = min(node.reachBack, previousNode.reachBack)
+                if node.reachBack >= previousNode.reachBack and previousNode has more than 1 child
+                    add previousNode to articulationNodes
+                end if
+            end if
+            remove node from fringe
+        end if
+    end loop
+
+    if rootChildCount <= 1 // this indicates that the root was not an AP
+        remove the root node from articulationNodes    
+    end if
+
+    remove every node inside visitedNodes from allNodes
+end loop
+```
+
 ###Depth and reachback
 * A
     * Depth: 0
@@ -58,6 +105,23 @@
 
 ---
 ##Minimum spanning tree
+Pseudocode of MST algorithm used.
+```
+let djSet = disjoint set
+let fringe = priority queue sorted by ascending segment length
+let mst = collection of segments representing the minimum spanning tree
+add all segments in graph to the fringe
+
+loop until fringe is empty
+    let segment = get and remove segment from fringe
+    
+    if not djSet.find(segment start, segment end) // Checks if start and end are not in the same disjoint set subtree
+        djSet.union(segment start, segment end) // Merge the trees
+        add segment to mst
+    end if 
+end loop
+```
+
 ###Prim's algorithm
 1. AD 2
 2. DE 6
