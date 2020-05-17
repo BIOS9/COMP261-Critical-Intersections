@@ -1,4 +1,10 @@
 # COMP261 Assignment 3 Answers
+My program does everything set out in the assignment handout.
+
+I tested the program worked by comparing the values given for number of articulation points
+and the minimum spanning tree provided for the small data set.
+
+I also created some unit tests to check the functionality of my disjoint set class.
 
 ## Articulation points
 Pseudocode of AP algorithm used.
@@ -104,6 +110,7 @@ end loop
     that F is an AP
 
 ---
+
 ## Minimum spanning tree
 Pseudocode of MST algorithm used.
 ```
@@ -150,6 +157,7 @@ following image will be the resulting tree.
 ### Calculate complex multiplcations and additions
 #### Multiplication
 ![Complex multiplication count](complexMultiplications.png)
+
 #### Addition:
 ![Complex addition count](complexAdditions.png)
 
