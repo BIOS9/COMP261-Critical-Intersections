@@ -58,7 +58,7 @@
 
 ---
 ##Minimum spanning tree
-##Prim's algorithm
+###Prim's algorithm
 1. AD 2
 2. DE 6
 3. EF 3
@@ -68,7 +68,7 @@
 7. CH 4
 8. HI 6
 
-##Kruskal's algorithm
+###Kruskal's algorithm
 This is the tree of the disjoint set at the end of the algorithm. 
 
 (This assumes that when Union(x, y) is called, x root becomes the parent of y root 
@@ -80,3 +80,14 @@ If the Union method makes x the parent of y, then the
 following image will be the resulting tree.
 
 ![Kruskal's Algorithm disjoint set state](kruskalsFinalGTop.png)
+
+
+##FFT
+###Calculate complex multiplcations and additions
+####Multiplication
+![Complex multiplication count](complexMultiplications.png)
+####Addition:
+![Complex addition count](complexAdditions.png)
+
+###Order of 16 point time series
+0 8 4 12 2 10 6 14 1 9 5 13 3 11 7 15
